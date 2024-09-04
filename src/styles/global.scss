@@ -1,0 +1,68 @@
+hr {
+  border: none;
+  border-top: 2px dashed white;
+  background-color: transparent;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.aj-grid-container--3cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+}
+
+
+.aj-grid-container--full {
+  grid-template-columns: 1fr;
+}
+
+
+.aj-grid-container--2cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.aj-grid-container--4cols {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.aj-text-center {
+  text-align: center;
+}
+
+
+$padding-scale: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 1rem,
+  4: 1.5rem,
+  5: 3rem
+);
+
+// Generowanie klas utility dla paddingu
+@each $key, $value in $padding-scale {
+  .p-#{$key} {
+    padding: $value !important;
+  }
+  .pt-#{$key} {
+    padding-top: $value !important;
+  }
+  .pr-#{$key} {
+    padding-right: $value !important;
+  }
+  .pb-#{$key} {
+    padding-bottom: $value !important;
+  }
+  .pl-#{$key} {
+    padding-left: $value !important;
+  }
+  .px-#{$key} {
+    padding-left: $value !important;
+    padding-right: $value !important;
+  }
+  .py-#{$key} {
+    padding-top: $value !important;
+    padding-bottom: $value !important;
+  }
+}

@@ -7,7 +7,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DynamicComponentService } from "../../services/dynamic-component.service";
+import { DynamicComponentService } from "../../../services/dynamic-component.service";
 import { CommandOutputComponent } from "../command-output/command-output.component";
 import { CommandComponent } from "../command/command.component";
 import { Subject, switchMap } from "rxjs";

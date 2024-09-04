@@ -5,14 +5,13 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommandOutputComponent } from "../command-output/command-output.component";
+import { CommandOutputComponent } from "./command-output/command-output.component";
 import { DynamicComponentService } from "../../services/dynamic-component.service";
 
 @Component({
   selector: 'app-intrusion',
   standalone: true,
   imports: [RouterOutlet, CommandOutputComponent],
-  providers: [DynamicComponentService],
   templateUrl: './intrusion.component.html',
   styleUrls: ['./intrusion.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
