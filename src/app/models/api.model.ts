@@ -1,4 +1,3 @@
-import {IRouteEx} from "./route.model";
 
 export interface IApiRoute {
   path: string

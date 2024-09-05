@@ -1,7 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ViewChild, ViewContainerRef} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {LocalDataService} from "./services/local-data.service";
-import {HttpClientModule} from "@angular/common/http";
 import {DynamicComponentService} from "./services/dynamic-component.service";
 import {CallbacksService} from "./services/callbacks.service";
 import {take} from "rxjs";

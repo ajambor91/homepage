@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewContainerRef} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core";
 import {RoutesService} from "../../../../services/routes.service";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import Typed from "typed.js";
 import {IRouteEx} from "../../../../models/route.model";
-import {Observable, Subscription} from "rxjs";
+import {Observable} from "rxjs";
 import {CallbacksService} from "../../../../services/callbacks.service";
 
 
@@ -24,12 +23,10 @@ import {CallbacksService} from "../../../../services/callbacks.service";
 })
 export class RoutesComponent {
   @ViewChild('commandElement') commandElement!: ElementRef;
-  @ViewChild('navContainer', { read: ViewContainerRef }) private navContainer!: ViewContainerRef;
+
 
   @Input() public lastLoginDate!: string | null;
-  private typed!: Typed;
-  private _routes!: IRouteEx[];
-  private _subs: Subscription = new Subscription();
+
 
 
   public  routes: Observable<any> = this.routeService.getRoutes();

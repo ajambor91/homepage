@@ -40,12 +40,8 @@ export class CommandBlockComponent implements AfterViewInit {
       return;
     }
 
-    // Tworzymy komponent `CommandComponent`, a następnie `CommandOutputComponent` i zarządzamy przez `CallbacksService`
     this.dynamicComponentService.createCommandComponent(this.commandContainer, CommandComponent, this.command).pipe(
-      switchMap(() => this.dynamicComponentService.createCommandOutputComponent(index, this.outputContainer, CommandOutputComponent, this.output))
-    ).subscribe(() => {
-      // Zamiast callbacka, używamy serwisu do zarządzania zakończeniem działania
-      this.dynamicComponentService.createCommandBlockComponent(index + 1, this.commandContainer);
-    });
+      switchMap(() => this.dynamicComponentService.createCommandOutputComponent( this.outputContainer, CommandOutputComponent, this.output))
+    ).subscribe();
   }
 }

@@ -16,31 +16,26 @@ import { IRouteEx } from "../app.routes";
 @Injectable()
 export class DynamicComponentService {
   private intrussionSubs: Subscription = new Subscription();
-
+  private _isLastCommand: boolean = false;
   constructor(
     private localDataService: LocalDataService,
     private callbacksService: CallbacksService
   ) {}
 
-  /**
-   * Tworzy komponent `CommandComponent` i emituje callback za pomocą CallbacksService
-   */
+
   public createCommandComponent(container: ViewContainerRef, component: Type<CommandComponent>, input: any): Observable<void> {
     const componentRef: ComponentRef<CommandComponent> = container.createComponent(component);
     componentRef.instance.input = input;
 
-    // Obsługujemy zakończenie komponentu przez CallbacksService
     return this.callbacksService.commandComponentCallback.pipe(take(1));
   }
 
-  /**
-   * Tworzy blok komend i zarządza dynamiczną sekwencją tworzenia komponentów
-   */
+
   public createCommandBlockComponent(index: number, container: ViewContainerRef): void {
     this.localDataService.getData(ELocalDataEnum.COMMANDS).pipe(
       switchMap((commands: ICommandComponentsData[]) => {
         if (index >= commands.length) {
-          this.callbacksService.setIntrussionFinalCallback();
+          this._isLastCommand = true;
           return new Observable<void>(observer => observer.complete());
         }
 
@@ -51,7 +46,6 @@ export class DynamicComponentService {
 
         const newIndex: number = index + 1;
 
-        // Subskrybujemy się na zakończenie bieżącego komponentu i tworzymy nowy
         const sub: Subscription = this.callbacksService.commandComponentCallback.subscribe(() => this.createCommandBlockComponent(newIndex, container));
         this.intrussionSubs.add(sub);
 
@@ -60,11 +54,7 @@ export class DynamicComponentService {
     ).subscribe();
   }
 
-  /**
-   * Tworzy komponent `CommandOutputComponent` i emituje callback przez CallbacksService
-   */
   public createCommandOutputComponent(
-    index: number,
     container: ViewContainerRef,
     component: Type<CommandOutputComponent>,
     outputs: any[]
@@ -73,6 +63,9 @@ export class DynamicComponentService {
     return new Observable<void>((observer) => {
       const outputCreationInterval = setInterval(() => {
         if (i >= outputs.length) {
+          if (this._isLastCommand === true) {
+            this.callbacksService.setIntrussionFinalCallback();
+          }
           clearInterval(outputCreationInterval);
           observer.next();
           observer.complete();
@@ -81,53 +74,38 @@ export class DynamicComponentService {
           componentRef.instance.input = outputs[i];
 
           i++;
-          // Używamy serwisu do callbacków zamiast przypisywać bezpośrednio
           const sub: Subscription = this.callbacksService.commandOutputComponentCallback.pipe(take(1)).subscribe();
           this.intrussionSubs.add(sub);
         }
-      }, 2);
+      }, 100);
     });
   }
 
-  /**
-   * Tworzy komponent `IntrusionComponent`
-   */
+
   public createIntrusion(container: ViewContainerRef): void {
     container.createComponent(IntrusionComponent);
   }
 
-  /**
-   * Tworzy komponent `MainPageComponent`
-   */
+
   public createMainPage(container: ViewContainerRef): void {
     container.createComponent(MainPageComponent);
   }
 
-  /**
-   * Niszczy wszystkie subskrypcje i czyści kontener
-   */
+
   public destroyIntrussion(container: ViewContainerRef): void {
     this.intrussionSubs.unsubscribe();
     container.clear();
   }
 
-  /**
-   * Tworzy komponent nawigacji
-   */
   public createNav(container: ViewContainerRef): void {
     container.createComponent(NavComponent);
   }
 
-  /**
-   * Tworzy komponent tras
-   */
+
   public createRoutes(container: ViewContainerRef): void {
     container.createComponent(RoutesComponent);
   }
 
-  /**
-   * Tworzy dowolny komponent na podstawie zdefiniowanej ścieżki routingu
-   */
   public addGenericComponent(container: ViewContainerRef, route: IRouteEx): void {
     const componentRef: ComponentRef<any> = container.createComponent(route.component as Type<any>);
     // this.callbacksService.setGenericComponentCallback(route);

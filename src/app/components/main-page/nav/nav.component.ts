@@ -1,12 +1,10 @@
 import {
   AfterViewInit, ChangeDetectionStrategy,
-  Component, ElementRef, Input, OnInit,
+  Component, ElementRef, Input,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import Typed from "typed.js";
-import {Route, Router, Routes} from "@angular/router";
-import {routes} from "../../../app.routes";
 import {DynamicComponentService} from "../../../services/dynamic-component.service";
 
 @Component({
@@ -25,7 +23,7 @@ export class NavComponent implements AfterViewInit{
   private typed!: Typed;
 
 
-  constructor(private router: Router, private dynamicComponentService: DynamicComponentService) {
+  constructor(private dynamicComponentService: DynamicComponentService) {
   }
   public ngAfterViewInit(): void {
     const routesCreator: () => void =this.createRoutesComponent.bind(this)

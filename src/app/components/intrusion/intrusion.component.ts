@@ -26,7 +26,6 @@ export class IntrusionComponent implements AfterViewInit {
     this.createCommandBlock();
   }
 
-  // Rozpoczyna tworzenie komponentów bloków komend
   private createCommandBlock(index: number = 0): void {
     this.dynamicComponentService.createCommandBlockComponent(index, this.commandContainer);
   }

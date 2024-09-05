@@ -22,7 +22,7 @@ export class CommandComponent implements AfterViewInit {
     this.typed = new Typed(this.commandElement.nativeElement, {
       strings: this.input,
       typeSpeed: 50,
-      onComplete: () => this.callbacksService.setIntrussionFinalCallback() // Zamiast manualnego `next()`
+      onComplete: () => this.callbacksService.setCommandComponentCallback()
     });
   }
 }

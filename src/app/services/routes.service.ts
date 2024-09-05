@@ -17,7 +17,6 @@ export class RoutesService {
   }
 
   private mergeRoutes(apiRoutes: IApiRoutes): IRoutesEx {
-    console.log('fdhkjlsfhgjdhsgfjhdgfjhdfgjh')
     const internalRoutes: IRoutesEx = this.router.config as IRoutesEx;
     const externalRoutes: IRoutesEx = apiRoutes.map((item: IApiRoute) => {
       const route: IRouteEx = {
@@ -29,7 +28,6 @@ export class RoutesService {
       }
       return route;
     })
-    console.log(internalRoutes.concat(externalRoutes))
     return internalRoutes.concat(externalRoutes);
   }
 }

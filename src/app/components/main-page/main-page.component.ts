@@ -1,6 +1,6 @@
 import {
   AfterViewInit, ChangeDetectionStrategy,
-  Component, ElementRef, OnInit,
+  Component, OnInit,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -11,7 +11,6 @@ import {InputComponent} from "../generic/input/input.component";
 import {Router, RouterModule} from "@angular/router";
 import {CallbacksService} from "../../services/callbacks.service";
 import {IRouteEx} from "../../app.routes";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-main-page',
@@ -28,10 +27,7 @@ import {Subscription} from "rxjs";
   ]
 })
 export class MainPageComponent  implements OnInit, AfterViewInit{
-  // @ViewChild('navContainer') navContainer!: ElementRef;
   @ViewChild('navContainer', { read: ViewContainerRef }) private navContainer!: ViewContainerRef;
-  @ViewChild('routerContainer', { read: ViewContainerRef }) private routerContainer!: ViewContainerRef;
-  private _navSub!: Subscription;
   public get lastLoginDate(): string | null{
     return this.greetingsService.getLastLogin();
   }
@@ -56,11 +52,9 @@ export class MainPageComponent  implements OnInit, AfterViewInit{
   }
 
   private addGenericComponent(): void {
-    this._navSub = this.callbackService.genericComponentCallback.subscribe((res: IRouteEx) => {
-      console.log('ooooooooooooooooooooooooooooooooooooooooooooooooo')
+ this.callbackService.genericComponentCallback.subscribe((res: IRouteEx) => {
       this.dynamicComponentService.addGenericComponent(this.navContainer, res);
       this.router.navigate([res.path], { replaceUrl: true });
-      // this._navSub.unsubscribe();
       this.dynamicComponentService.createNav(this.navContainer)
     });
   }
