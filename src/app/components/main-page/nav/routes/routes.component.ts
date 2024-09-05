@@ -1,18 +1,10 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef, Input,
-  OnInit,
-  ViewChild,
-  ViewContainerRef
-} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewContainerRef} from "@angular/core";
+import {RoutesService} from "../../../../services/routes.service";
+import {AsyncPipe, NgForOf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 import Typed from "typed.js";
-import {Route, Router, RouterLink} from "@angular/router";
-import {DynamicComponentService} from "../../../../services/dynamic-component.service";
-import {IRouteEx} from "../../../../app.routes";
-import {NgForOf} from "@angular/common";
-import {Subscription} from "rxjs";
+import {IRouteEx} from "../../../../models/route.model";
+import {Observable, Subscription} from "rxjs";
 import {CallbacksService} from "../../../../services/callbacks.service";
 
 
@@ -21,14 +13,16 @@ import {CallbacksService} from "../../../../services/callbacks.service";
   standalone: true,
   templateUrl: './routes.component.html',
   styleUrls: ['./routes.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  providers: [RoutesService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 
   imports: [
     NgForOf,
-    RouterLink
+    RouterLink,
+    AsyncPipe
   ]
 })
-export class RoutesComponent implements OnInit{
+export class RoutesComponent {
   @ViewChild('commandElement') commandElement!: ElementRef;
   @ViewChild('navContainer', { read: ViewContainerRef }) private navContainer!: ViewContainerRef;
 
@@ -36,23 +30,17 @@ export class RoutesComponent implements OnInit{
   private typed!: Typed;
   private _routes!: IRouteEx[];
   private _subs: Subscription = new Subscription();
-  public set routes(value: IRouteEx[]){
-    this._routes = value;
+
+
+  public  routes: Observable<any> = this.routeService.getRoutes();
+
+
+  constructor(private routeService: RoutesService, private callbackService: CallbacksService) {
   }
 
-  public get routes(): IRouteEx[] {
-    return this._routes;
-  }
-  constructor(private router: Router, private dynamicComponentService: DynamicComponentService, private callbackService: CallbacksService) {
-  }
 
-  public ngOnInit() {
-    console.log(this.router.config)
-    this.routes = this.router.config
-  }
 
   public selectAndPassComponent(route: IRouteEx): void {
-    console.log('xxxx')
     this.callbackService.setGenericComponentCallback(route);
   }
 

@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let route of routes">
+  <li *ngFor="let route of routes | async">
     <a (click)="selectAndPassComponent( route)">{{ route.path }}</a>
   </li>
 </ul>
