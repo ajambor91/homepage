@@ -1,25 +1,19 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {Subject} from "rxjs";
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CallbacksService } from '../../../services/callbacks.service';
+
 @Component({
   selector: 'app-command-output-block',
   standalone: true,
-  imports: [RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './command-output.component.html',
-  styleUrl: './command-output.component.scss'
+  styleUrls: ['./command-output.component.scss']
 })
-export class CommandOutputComponent implements AfterViewInit{
-  @Input()  public input!: string;
+export class CommandOutputComponent implements AfterViewInit {
+  @Input() public input!: string;
 
-  @Input() public callback!: Subject<void>;
+  constructor(private callbacksService: CallbacksService) {}
+
   public ngAfterViewInit(): void {
-    this.callback.next();
+    this.callbacksService.setIntrussionFinalCallback(); // Używamy serwisu
   }
-
 }

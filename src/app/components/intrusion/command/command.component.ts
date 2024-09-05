@@ -1,13 +1,6 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild, ElementRef } from '@angular/core';
 import Typed from 'typed.js';
-import { Subject } from "rxjs";
+import { CallbacksService } from '../../../services/callbacks.service';
 
 @Component({
   selector: 'app-command-output-block',
@@ -18,17 +11,18 @@ import { Subject } from "rxjs";
 })
 export class CommandComponent implements AfterViewInit {
 
-  @Input() callback = new Subject<void>();
-  @ViewChild('commandElement') commandElement!: ElementRef;
   @Input() input!: string[];
+  @ViewChild('commandElement') commandElement!: ElementRef;
 
   private typed!: Typed;
+
+  constructor(private callbacksService: CallbacksService) {}
 
   public ngAfterViewInit(): void {
     this.typed = new Typed(this.commandElement.nativeElement, {
       strings: this.input,
       typeSpeed: 50,
-      onComplete: () => this.callback.next()
+      onComplete: () => this.callbacksService.setIntrussionFinalCallback() // Zamiast manualnego `next()`
     });
   }
 }

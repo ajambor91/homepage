@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DynamicComponentService } from "../../../services/dynamic-component.service";
-import { CommandOutputComponent } from "../command-output/command-output.component";
 import { CommandComponent } from "../command/command.component";
-import { Subject, switchMap } from "rxjs";
+import { CommandOutputComponent } from "../command-output/command-output.component";
+import { switchMap } from "rxjs";
 
 @Component({
-  selector: 'app-command-output-block-block',
+  selector: 'app-command-block',
   standalone: true,
   imports: [RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,13 +22,13 @@ import { Subject, switchMap } from "rxjs";
 })
 export class CommandBlockComponent implements AfterViewInit {
 
-  @Input() public callback!: Subject<void>;
   @ViewChild('commandContainer', { read: ViewContainerRef }) private commandContainer!: ViewContainerRef;
   @ViewChild('outputContainer', { read: ViewContainerRef }) private outputContainer!: ViewContainerRef;
 
   @Input() public command!: string[];
   @Input() public output!: string[];
   @Input() public commandsLength!: number;
+
   constructor(private dynamicComponentService: DynamicComponentService) {}
 
   public ngAfterViewInit(): void {
@@ -36,14 +36,16 @@ export class CommandBlockComponent implements AfterViewInit {
   }
 
   private startComponentCycle(index: number): void {
-    if (index >=this.commandsLength) {
+    if (index >= this.commandsLength) {
       return;
     }
 
+    // Tworzymy komponent `CommandComponent`, a następnie `CommandOutputComponent` i zarządzamy przez `CallbacksService`
     this.dynamicComponentService.createCommandComponent(this.commandContainer, CommandComponent, this.command).pipe(
       switchMap(() => this.dynamicComponentService.createCommandOutputComponent(index, this.outputContainer, CommandOutputComponent, this.output))
     ).subscribe(() => {
-      this.callback.next();
+      // Zamiast callbacka, używamy serwisu do zarządzania zakończeniem działania
+      this.dynamicComponentService.createCommandBlockComponent(index + 1, this.commandContainer);
     });
   }
 }
