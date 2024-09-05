@@ -1,0 +1,13 @@
+.greeting {
+  &__messages {
+    &-list {
+
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    &-item {
+      margin-top: 10px;
+    }
+  }
+}

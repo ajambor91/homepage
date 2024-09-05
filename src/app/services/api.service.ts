@@ -6,7 +6,7 @@ import {EnvironmentsService} from "./environments.service";
 
 @Injectable()
 export class ApiService {
-  private readonly _apiUrl = inject(EnvironmentsService).apiUrl;
+  private readonly _apiUrl: string = inject(EnvironmentsService).apiUrl;
   constructor(private httpClient: HttpClient) {
 
   }
