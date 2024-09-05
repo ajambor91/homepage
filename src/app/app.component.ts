@@ -5,13 +5,14 @@ import {DynamicComponentService} from "./services/dynamic-component.service";
 import {CallbacksService} from "./services/callbacks.service";
 import {take} from "rxjs";
 import {ApiService} from "./services/api.service";
+import {EnvironmentsService} from "./services/environments.service";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet],
-  providers: [LocalDataService, DynamicComponentService, CallbacksService, ApiService],
+  providers: [LocalDataService, DynamicComponentService, CallbacksService, ApiService, EnvironmentsService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

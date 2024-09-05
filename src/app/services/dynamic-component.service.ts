@@ -106,6 +106,7 @@ export class DynamicComponentService {
     container.createComponent(RoutesComponent);
   }
 
+
   public addGenericComponent(container: ViewContainerRef, route: IRouteEx): void {
     const componentRef: ComponentRef<any> = container.createComponent(route.component as Type<any>);
     // this.callbacksService.setGenericComponentCallback(route);
