@@ -8,28 +8,28 @@
     position: relative;
 
     &:before {
-      content: '';
-      border-left: 1px solid #000;
+      content: "";
+      border-left: 2px solid #ffffff;
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 0;
+      left: 14px;
     }
   }
 
   &__item, &__subitem {
     position: relative;
-    padding-left: 0.5rem;
+    padding-left: 1.2rem;
 
     &:before {
-      content: ' ├──';
+      content: '├──';
       position: absolute;
       left: -1rem;
       top: 0;
     }
 
     &:last-child:before {
-      content: ' └──';
+      content: '└──';
     }
   }
 

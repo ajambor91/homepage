@@ -2,12 +2,12 @@
   <section class="directory directory--tree" aria-labelledby="directory-heading">
     <h2 id="directory-heading" class="visually-hidden">Directory Structure</h2>
     <ul class="directory__list" aria-label="Directory list">
-      <li class="directory__item"> {{routes.name}}</li>
+      <li class="directory__item directory__root">{{ routes.name }}</li>
       <li>
         <ul class="directory__sublist">
           <ng-container *ngFor="let route of routes.children">
-            <li class="directory__subitem">
-               {{route.name}}
+            <li class="directory__subitem" [ngClass]="{'directory__home': route.name === 'home', 'directory__blog': route.name === 'blog'}">
+              {{ route.name }}
               <ul class="directory__sublist">
                 <ng-container *ngFor="let childRoute of route.children">
                   <li class="directory__subitem">
@@ -19,18 +19,18 @@
                     <ng-template #category>
                       {{ childRoute.name }}
                       <ng-container *ngIf="childRoute.children">
-                      <ul class="directory__sublist">
-                        <ng-container *ngFor="let category of childRoute.children">
-                          <ul class="directory__sublist">
+                        <ul class="directory__sublist">
+                          <ng-container *ngFor="let category of childRoute.children">
+                            <ul class="directory__sublist">
                               <li class="directory__subitem">
                                 <a class="directory__link" (click)="selectAndPassComponent(route)">
-                                   {{ category.path }}
+                                  {{ category.path }}
                                 </a>
                               </li>
-                          </ul>
-                        </ng-container>
-                      </ul>
-                    </ng-container>
+                            </ul>
+                          </ng-container>
+                        </ul>
+                      </ng-container>
                     </ng-template>
                   </li>
                 </ng-container>

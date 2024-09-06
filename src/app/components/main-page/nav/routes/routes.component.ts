@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core";
 import {RoutesService} from "../../../../services/routes.service";
-import {AsyncPipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {IRouteEx, ITreeNodeRoutes} from "../../../../models/route.model";
 import {Observable} from "rxjs";
@@ -20,7 +20,8 @@ import {CallbacksService} from "../../../../services/callbacks.service";
     RouterLink,
     AsyncPipe,
     NgIf,
-    JsonPipe
+    JsonPipe,
+    NgClass
   ]
 })
 export class RoutesComponent {
