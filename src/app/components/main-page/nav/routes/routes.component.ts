@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core";
 import {RoutesService} from "../../../../services/routes.service";
-import {AsyncPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import {IRouteEx} from "../../../../models/route.model";
+import {IRouteEx, ITreeNodeRoutes} from "../../../../models/route.model";
 import {Observable} from "rxjs";
 import {CallbacksService} from "../../../../services/callbacks.service";
 
@@ -18,7 +18,9 @@ import {CallbacksService} from "../../../../services/callbacks.service";
   imports: [
     NgForOf,
     RouterLink,
-    AsyncPipe
+    AsyncPipe,
+    NgIf,
+    JsonPipe
   ]
 })
 export class RoutesComponent {
@@ -29,7 +31,7 @@ export class RoutesComponent {
 
 
 
-  public  routes: Observable<any> = this.routeService.getRoutes();
+  public  routes$: Observable<ITreeNodeRoutes> = this.routeService.getRoutes();
 
 
   constructor(private routeService: RoutesService, private callbackService: CallbacksService) {
@@ -37,8 +39,8 @@ export class RoutesComponent {
 
 
 
-  public selectAndPassComponent(route: IRouteEx): void {
-    this.callbackService.setGenericComponentCallback(route);
+  public selectAndPassComponent(route: any): void {
+    // this.callbackService.setGenericComponentCallback(route);
   }
 
 }

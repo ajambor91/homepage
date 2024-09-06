@@ -1,6 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  Component, OnInit,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, NgZone, OnInit,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -31,12 +31,15 @@ export class MainPageComponent  implements OnInit, AfterViewInit{
   public get lastLoginDate(): string | null{
     return this.greetingsService.getLastLogin();
   }
-  constructor(private greetingsService: GreetingsService, private dynamicComponentService: DynamicComponentService, private callbackService: CallbacksService, private router: Router) {
+
+  public currentTime!: string;
+  constructor(private zone: NgZone, private greetingsService: GreetingsService, private dynamicComponentService: DynamicComponentService, private callbackService: CallbacksService, private router: Router, private cdr: ChangeDetectorRef) {
 
   }
 
   ngOnInit(): void {
     this.addGenericComponent();
+    this.updateTime();
   }
 
   ngAfterViewInit() {
@@ -50,7 +53,22 @@ export class MainPageComponent  implements OnInit, AfterViewInit{
   private getLastLoginDate(): void {
     this.greetingsService.setLoginDate();
   }
+  private updateTime(): void {
+    this.zone.runOutsideAngular(() => {
+      this.setTime();
+      setInterval(() => {
+        this.zone.run(() => {
+          this.setTime();
+        });
+      }, 1000);
+    });
+  }
 
+private setTime(): void {
+  const now = new Date();
+  this.currentTime = now.toLocaleTimeString('en-GB', { hour12: false });
+  this.cdr.detectChanges();
+}
   private addGenericComponent(): void {
  this.callbackService.genericComponentCallback.subscribe((res: IRouteEx) => {
       this.dynamicComponentService.addGenericComponent(this.navContainer, res);

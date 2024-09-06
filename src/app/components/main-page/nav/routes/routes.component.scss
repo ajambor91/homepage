@@ -1,0 +1,47 @@
+.directory {
+  font-family: monospace;
+
+  &__list, &__sublist {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0 0 1.5rem;
+    position: relative;
+
+    &:before {
+      content: '';
+      border-left: 1px solid #000;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &__item, &__subitem {
+    position: relative;
+    padding-left: 0.5rem;
+
+    &:before {
+      content: ' ├──';
+      position: absolute;
+      left: -1rem;
+      top: 0;
+    }
+
+    &:last-child:before {
+      content: ' └──';
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #00ff00;
+    transition: color 0.3s;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      color:  #00cc00;
+    }
+  }
+}

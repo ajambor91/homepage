@@ -13,7 +13,7 @@ import {
 
 })
 export class GreetingComponentComponent {
-
+  @Input() public currentTime!: string | null;
   @Input() public lastLoginDate!: string | null;
 
 

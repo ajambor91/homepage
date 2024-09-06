@@ -6,27 +6,27 @@ hr {
   margin: 1rem 0;
 }
 
-.aj-grid-container--3cols {
+.grid-container--3cols {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 16px;
 }
 
 
-.aj-grid-container--full {
+.grid-container--full {
   grid-template-columns: 1fr;
 }
 
 
-.aj-grid-container--2cols {
+.grid-container--2cols {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.aj-grid-container--4cols {
+.grid-container--4cols {
   grid-template-columns: repeat(4, 1fr);
 }
 
-.aj-text-center {
+.text-center {
   text-align: center;
 }
 
@@ -40,7 +40,6 @@ $padding-scale: (
   5: 3rem
 );
 
-// Generowanie klas utility dla paddingu
 @each $key, $value in $padding-scale {
   .p-#{$key} {
     padding: $value !important;
@@ -65,4 +64,15 @@ $padding-scale: (
     padding-top: $value !important;
     padding-bottom: $value !important;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

@@ -1,5 +1,6 @@
 
 export interface IApiRoute {
-  path: string
+  path: string;
+  category: string;
 }
 export interface IApiRoutes extends Array<IApiRoute>{}
